@@ -181,7 +181,7 @@ HTML_TEMPLATE = """
 </head>
 <body>
     <header>
-        🚀 Kastro EFS StatefulSet Demo
+        🚀 Achari"s EFS StatefulSet Demo
         <div class="subtitle">Persistent, Resilient & Scalable</div>
     </header>
 
@@ -220,8 +220,8 @@ HTML_TEMPLATE = """
     </div>
 
     <footer>
-        <p>This is a <span class="highlight">Stateful Application</span>, developed and deployed by <span class="highlight">Kastro Kiran V</span>.</p>
-        <p>Powered by <span class="highlight">AWS EFS + Kubernetes StatefulSet</span>.</p>
+        <p>This is a <span class="highlight">Stateful Application</span>, developed and deployed by <span class="highlight">Sanath Achari</span>.</p>
+        
     </footer>
 </body>
 </html>
