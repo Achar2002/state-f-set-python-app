@@ -1,4 +1,4 @@
-
+```python
 from flask import Flask, request, render_template_string
 import json
 import os
@@ -7,6 +7,9 @@ app = Flask(__name__)
 
 # Configuration
 DATA_FILE = "/data/data.json"
+
+# Ensure data directory exists
+os.makedirs(os.path.dirname(DATA_FILE), exist_ok=True)
 
 # Ensure data file exists with empty list
 if not os.path.exists(DATA_FILE):
@@ -22,7 +25,6 @@ HTML_TEMPLATE = """
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Kastro EFS StatefulSet Demo</title>
     <style>
-        /* Global Styles */
         body {
             margin: 0;
             font-family: "Poppins", sans-serif;
@@ -31,7 +33,6 @@ HTML_TEMPLATE = """
             line-height: 1.6;
         }
 
-        /* Header Section */
         header {
             background: #0f172a;
             padding: 25px;
@@ -52,7 +53,6 @@ HTML_TEMPLATE = """
             margin-top: 5px;
         }
 
-        /* Main Container */
         .container {
             max-width: 900px;
             margin: 40px auto;
@@ -60,7 +60,6 @@ HTML_TEMPLATE = """
             padding: 20px;
         }
 
-        /* Form Styles */
         .data-form {
             background: rgba(255, 255, 255, 0.05);
             padding: 30px;
@@ -111,7 +110,6 @@ HTML_TEMPLATE = """
             box-shadow: 0 6px 15px rgba(0, 224, 255, 0.4);
         }
 
-        /* Data Display Section */
         .section-title {
             color: #00ff95;
             margin-bottom: 15px;
@@ -135,34 +133,16 @@ HTML_TEMPLATE = """
         }
 
         @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(10px); }
-            to { opacity: 1; transform: translateY(0); }
+            from {
+                opacity: 0;
+                transform: translateY(10px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
         }
 
-        /* YouTube Section */
-        .youtube-section {
-            margin-top: 35px;
-        }
-
-        .youtube-link {
-            font-size: 16px;
-            margin-bottom: 10px;
-            display: block;
-        }
-
-        .youtube-logo {
-            width: 70px;
-            height: 70px;
-            border-radius: 50%;
-            transition: transform 0.3s, box-shadow 0.3s;
-        }
-
-        .youtube-logo:hover {
-            transform: scale(1.2) rotate(8deg);
-            box-shadow: 0 8px 18px rgba(255, 0, 0, 0.6);
-        }
-
-        /* Footer */
         footer {
             margin-top: 60px;
             padding: 20px;
@@ -181,22 +161,23 @@ HTML_TEMPLATE = """
 </head>
 <body>
     <header>
-        🚀 Achari"s EFS StatefulSet Demo
+        🚀 Achari's EFS StatefulSet Demo
         <div class="subtitle">Persistent, Resilient & Scalable</div>
     </header>
 
     <div class="container">
         <form method="POST" class="data-form">
             <h2>📝 Enter User Data</h2>
+
             <label class="form-label">Name:</label>
             <input type="text" name="name" class="form-input" required>
-            
+
             <label class="form-label">Age:</label>
             <input type="number" name="age" class="form-input" required>
-            
+
             <label class="form-label">Gender:</label>
             <input type="text" name="gender" class="form-input" required>
-            
+
             <input type="submit" value="Save Data" class="submit-button">
         </form>
 
@@ -204,24 +185,18 @@ HTML_TEMPLATE = """
         <ul class="data-list">
         {% for entry in data %}
             <li class="data-item">
-                <strong>{{ entry['name'] }}</strong> | Age: {{ entry['age'] }} | Gender: {{ entry['gender'] }}
+                <strong>{{ entry['name'] }}</strong> |
+                Age: {{ entry['age'] }} |
+                Gender: {{ entry['gender'] }}
             </li>
         {% endfor %}
         </ul>
-
-        <div class="youtube-section">
-            <span class="youtube-link">👉 Learn more at my channel:</span>
-            <a href="https://www.youtube.com/@LearnWithKASTRO" target="_blank" aria-label="Visit Kastro's YouTube channel">
-                <img src="https://www.freepnglogos.com/uploads/youtube-logo-hd-8.png" 
-                     alt="YouTube Channel" 
-                     class="youtube-logo">
-            </a>
-        </div>
     </div>
 
     <footer>
-        <p>This is a <span class="highlight">Stateful Application</span>, developed and deployed by <span class="highlight">Sanath Achari</span>.</p>
-        
+        <p>This is a <span class="highlight">Stateful Application</span>,
+        developed  and deployed by
+        <span class="highlight">Sanath Achari</span>.</p>
     </footer>
 </body>
 </html>
@@ -230,25 +205,24 @@ HTML_TEMPLATE = """
 @app.route("/", methods=["GET", "POST"])
 def index():
     """Handle main page requests and form submissions."""
-    # Load existing data
     with open(DATA_FILE, "r") as file:
         user_data = json.load(file)
 
-    # Process form submission
     if request.method == "POST":
         new_entry = {
             "name": request.form.get("name"),
             "age": request.form.get("age"),
             "gender": request.form.get("gender")
         }
-        
+
         user_data.append(new_entry)
-        
-        # Save updated data
+
         with open(DATA_FILE, "w") as file:
             json.dump(user_data, file, indent=2)
 
     return render_template_string(HTML_TEMPLATE, data=user_data)
 
+
 if __name__ == "__main__":
-    app.run(host="0.0.0.0", port=5000
+    app.run(host="0.0.0.0", port=5000)
+```
